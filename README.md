@@ -24,13 +24,13 @@
 | situation_id      | integer    | null: false                    |
 | responsibility_id | integer    | null: false                    |
 | prefecture_id     | integer    | null: false                    |
-| number_of_days_id | integer    | null: false                    |
+| number_of_day_id  | integer    | null: false                    |
 | price             | integer    | null: false                    |
 | user              | references | null: false,foreign_key: true  |
 
 
 -belongs_to :user
--has_many :buyer
+-has_one :buyer
 
 ## addresses テーブル
 
@@ -55,4 +55,4 @@
 
 -belongs_to :user
 -belongs_to :item
--has_many :addresses
+-has_one :addresses
