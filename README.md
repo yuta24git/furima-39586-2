@@ -3,7 +3,7 @@
 | Column             | Type   | Options                   |
 | ------------------ | ------ | ------------------------- |
 | nickname           | string | null: false               |
-| email              | string | null: false               |
+| email              | string | null: false unique: true  |
 | encrypted_password | string | null: false               |
 | first_name         | string | null: false               |
 | last_name          | string | null: false               |
@@ -12,7 +12,7 @@
 | birth_date         | date   | null: false               |
 
 - has_many :items
-- has_one :buyers
+- has_many :buyers
 
 ## items テーブル
 
@@ -30,28 +30,29 @@
 
 
 -belongs_to :user
--has_one :buyer
+-has_many :buyer
 
-## buyers テーブル
+## addresses テーブル
 
 | Column           | Type       | Options                        |
 | ---------------- | ---------- | ------------------------------ |
-| post_code        | integer    | null: false                    |
+| post_code        | string     | null: false                    |
 | prefecture_id    | integer    | null: false                    |
 | municipality     | string     | null: false                    |
 | address          | string     | null: false                    |
 | building_name    | string     |                                |
 | telephone_number | string     | null: false                    |
+| buyer            | references | null: false, foreign_key: true |
 
--belongs_to :user
--belongs_to :item
--has_many :addresses
+-belongs_to :buyer
 
-## addresses テーブル
+## buyers テーブル
 
 | Column           | Type       | Options                        |
 | ---------------- | ---------- | ------------------------------ |
 | user             | references | null: false, foreign_key: true |
 | item             | references | null: false, foreign_key: true |
 
--belongs_to :buyer
+-belongs_to :user
+-belongs_to :item
+-has_many :addresses
