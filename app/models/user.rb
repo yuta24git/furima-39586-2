@@ -12,7 +12,6 @@ class User < ApplicationRecord
   validates :birth_date, presence: true
   validate :password_complexity
 
-
   private
 
   def password_complexity
