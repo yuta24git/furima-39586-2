@@ -3,11 +3,6 @@ require 'rails_helper'
 RSpec.describe User, type: :model do
   before do
     @user = FactoryBot.build(:user)
-    @user.first_name = '山田'
-    @user.last_name = '太郎'
-    @user.first_name_kana = 'ヤマダ'
-    @user.last_name_kana = 'タロウ'
-    @user.birth_date = Date.new(1995, 8, 3)
   end
 
   describe 'ユーザー新規登録' do
@@ -31,11 +26,6 @@ RSpec.describe User, type: :model do
         @user.save
         another_user = FactoryBot.build(:user)
         another_user.email = @user.email
-        another_user.first_name = '田中'
-        another_user.last_name = '次郎'
-        another_user.first_name_kana = 'タナカ'
-        another_user.last_name_kana = 'ジロウ'
-        another_user.birth_date = Date.new(1995, 8, 5)
         another_user.valid?
         expect(another_user.errors.full_messages).to include('Email has already been taken')
       end
