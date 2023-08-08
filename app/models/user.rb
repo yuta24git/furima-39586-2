@@ -17,8 +17,7 @@ class User < ApplicationRecord
   def password_complexity
     return if password.blank?
 
-    return if password.match?(/\A(?=.*[a-zA-Z])(?=.*\d)/)
-
+    return if password.match?(/\A(?=.*[a-zA-Z])(?=.*\d)[a-zA-Z\d]+\z/)
     errors.add :password, 'must include both letters and numbers'
   end
 end
