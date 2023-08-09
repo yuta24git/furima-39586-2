@@ -2,14 +2,14 @@ class Item < ApplicationRecord
   belongs_to :user
   has_one_attached :image
 
-  validates :title, persence :true
-  validates :explanation, persence :true
-  validates :category_id, persence :true, numericality: { other_than: 1 , message: "can't be blank" } 
-  validates :situation_id, persence :true, numericality: { other_than: 1 , message: "can't be blank" }
-  validates :responsibility_id, persence :true, numericality: { other_than: 1 , message: "can't be blank" }
-  validates :prefecture_id ,persence :true, numericality: { other_than: 1 , message: "can't be blank" }
-  validates :number_of_day_id, persence :true, numericality: { other_than: 1 , message: "can't be blank" }
-  validates :price, persence :true
+  validates :title, presence: true
+  validates :explanation, presence: true
+  validates :category_id, presence: true, numericality: { other_than: 1 , message: "can't be blank" } 
+  validates :situation_id, presence: true, numericality: { other_than: 1 , message: "can't be blank" }
+  validates :responsibility_id, presence: true, numericality: { other_than: 1 , message: "can't be blank" }
+  validates :prefecture_id ,presence: true, numericality: { other_than: 1 , message: "can't be blank" }
+  validates :number_of_day_id, presence: true, numericality: { other_than: 1 , message: "can't be blank" }
+  validates :price, presence: true
 
   extend ActiveHash::Associations::ActiveRecordExtensions
   belongs_to :category
