@@ -3,7 +3,7 @@ class User < ApplicationRecord
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
-  
+
   has_many :items
 
   validates :nickname, presence: true
@@ -20,6 +20,7 @@ class User < ApplicationRecord
     return if password.blank?
 
     return if password.match?(/\A(?=.*[a-zA-Z])(?=.*\d)[a-zA-Z\d]+\z/)
+
     errors.add :password, 'must include both letters and numbers'
   end
 end
