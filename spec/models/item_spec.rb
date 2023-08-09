@@ -33,7 +33,7 @@ RSpec.describe Item, type: :model do
         expect(@item.errors.full_messages).to include("Category can't be blank")
       end
       it 'situation_idが空では出品できない' do
-        @item.situation_id = 1
+        @item.situation_id = ""
         @item.valid?
         expect(@item.errors.full_messages).to include("Situation can't be blank")
       end
@@ -86,6 +86,11 @@ RSpec.describe Item, type: :model do
         @item.price = 10_000_000
         @item.valid?
         expect(@item.errors.full_messages).to include('Price must be less than or equal to 9999999')
+      end
+      it 'priceに半角数字以外が含まれている場合出品できない' do
+        @item.price = "１０００"
+        @item.valid?
+        expect(@item.errors.full_messages).to include("Price")
       end
       it 'imegeが空では出品できない' do
         @item.image = nil
