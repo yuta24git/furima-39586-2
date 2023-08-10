@@ -53,7 +53,6 @@ class ItemsController < ApplicationController
   end
 
   def move_to_root_path
-    set_item
     return if user_signed_in? && current_user.id == @item.user_id
 
     redirect_to root_path
