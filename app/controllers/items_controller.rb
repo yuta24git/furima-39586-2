@@ -22,11 +22,9 @@ class ItemsController < ApplicationController
   end
 
   def show
-
   end
 
   def edit
-    
   end
 
   def update
@@ -56,8 +54,8 @@ class ItemsController < ApplicationController
 
   def move_to_root_path
     set_item
-    unless user_signed_in? && current_user.id == @item.user_id
-      redirect_to root_path
-    end
+    return if user_signed_in? && current_user.id == @item.user_id
+
+    redirect_to root_path
   end
 end
