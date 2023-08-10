@@ -16,6 +16,5 @@ def generate_password
   letters = Faker::Internet.password(min_length: 3, max_length: 3, mix_case: true)
   digits = Faker::Number.between(from: 100, to: 999)
 
-  password = "#{letters}#{digits}"
-  return password
+  "#{letters}#{digits}"
 end
