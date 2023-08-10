@@ -2,6 +2,7 @@ class ItemsController < ApplicationController
   before_action :move_to_new_user_session_path, only: :new
 
   def index
+    @items = Item.includes(:user).order('created_at DESC')
   end
 
   def new
