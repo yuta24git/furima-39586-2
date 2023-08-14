@@ -4,7 +4,7 @@ RSpec.describe BuyerAddress, type: :model do
   before do
     user = FactoryBot.create(:user)
     item = FactoryBot.create(:item, user_id: user.id)
-    @buyer_address = FactoryBot.build(:buyer_address, user_id: user.id, item_id: item.id, price: item.price)
+    @buyer_address = FactoryBot.build(:buyer_address, user_id: user.id, item_id: item.id)
   end
 
   describe '商品購入' do
@@ -59,7 +59,12 @@ RSpec.describe BuyerAddress, type: :model do
         @buyer_address.valid?
         expect(@buyer_address.errors.full_messages).to include("Telephone number can't be blank")
       end
-      it 'telephone_numberは10桁以上11桁以内でなければ購入できない' do
+      it 'telephone_numberは9桁以下では購入できない' do
+        @buyer_address.telephone_number = '090123456'
+        @buyer_address.valid?
+        expect(@buyer_address.errors.full_messages).to include('Telephone number is invalid')
+      end
+      it 'telephone_numberは12桁以上では購入できない' do
         @buyer_address.telephone_number = '090123456789'
         @buyer_address.valid?
         expect(@buyer_address.errors.full_messages).to include('Telephone number is invalid')
@@ -69,15 +74,20 @@ RSpec.describe BuyerAddress, type: :model do
         @buyer_address.valid?
         expect(@buyer_address.errors.full_messages).to include('Telephone number is invalid')
       end
-      it 'priceが空では購入できない' do
-        @buyer_address.price = ''
-        @buyer_address.valid?
-        expect(@buyer_address.errors.full_messages).to include("Price can't be blank")
-      end
       it 'tokenが空では購入できない' do
         @buyer_address.token = ''
         @buyer_address.valid?
         expect(@buyer_address.errors.full_messages).to include("Token can't be blank")
+      end
+      it '紐づくuserがなければ購入できない' do
+        @buyer_address.user_id = ''
+        @buyer_address.valid?
+        expect(@buyer_address.errors.full_messages).to include("User can't be blank")
+      end
+      it '紐づくitemがなければ購入できない' do
+        @buyer_address.item_id = ''
+        @buyer_address.valid?
+        expect(@buyer_address.errors.full_messages).to include("Item can't be blank")
       end
     end
   end
