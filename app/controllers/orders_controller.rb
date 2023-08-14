@@ -1,4 +1,6 @@
 class OrdersController < ApplicationController
+  before_action :move_to_root_path, only: :index
+
   def index
     gon.public_key = ENV["PAYJP_PUBLIC_KEY"]
     @item = Item.find(params[:item_id])
@@ -29,5 +31,12 @@ class OrdersController < ApplicationController
       card: order_params[:token],
       currency: 'jpy'
     )
+  end
+
+  def move_to_root_path
+    @item = Item.find(params[:item_id])
+    unless user_signed_in? && @item.user_id != current_user.id
+      redirect_to root_path
+    end
   end
 end
