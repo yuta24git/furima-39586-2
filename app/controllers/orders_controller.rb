@@ -1,4 +1,5 @@
 class OrdersController < ApplicationController
+  include ItemsHelper
   before_action :move_to_root_path, only: :index
 
   def index
@@ -13,7 +14,7 @@ class OrdersController < ApplicationController
     if @buyer_address.valid?
       pay_item
       @buyer_address.save
-      redirect_to root_path   
+      redirect_to root_path
     else
       render :index, status: :unprocessable_entity
     end
@@ -35,7 +36,7 @@ class OrdersController < ApplicationController
 
   def move_to_root_path
     @item = Item.find(params[:item_id])
-    unless user_signed_in? && @item.user_id != current_user.id
+    if !user_signed_in? || @item.user_id == current_user.id || buyers_exists?(@item.id)
       redirect_to root_path
     end
   end
