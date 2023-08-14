@@ -59,8 +59,8 @@ class ItemsController < ApplicationController
   end
 
   def move_to_root_path
-    if !user_signed_in? || current_user.id != @item.user_id || buyers_exists?(@item.id)
-      redirect_to root_path
-    end
+    return unless !user_signed_in? || current_user.id != @item.user_id || buyers_exists?(@item.id)
+
+    redirect_to root_path
   end
 end

@@ -42,7 +42,7 @@ class OrdersController < ApplicationController
     if !user_signed_in?
       redirect_to new_user_session_path
     elsif @item.user_id == current_user.id || buyers_exists?(@item.id)
-      redirect_to root_path 
+      redirect_to root_path
     end
   end
 end
