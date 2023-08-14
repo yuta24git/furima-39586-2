@@ -1,6 +1,6 @@
 class OrdersController < ApplicationController
   include ItemsHelper
-  before_action :move_to_root_path, only: :index
+  before_action :move_to_page, only: :index
 
   def index
     gon.public_key = ENV['PAYJP_PUBLIC_KEY']
@@ -37,10 +37,12 @@ class OrdersController < ApplicationController
     )
   end
 
-  def move_to_root_path
+  def move_to_page
     @item = Item.find(params[:item_id])
-    return unless !user_signed_in? || @item.user_id == current_user.id || buyers_exists?(@item.id)
-
-    redirect_to root_path
+    if !user_signed_in?
+      redirect_to new_user_session_path
+    elsif @item.user_id == current_user.id || buyers_exists?(@item.id)
+      redirect_to root_path 
+    end
   end
 end
