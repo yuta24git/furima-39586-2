@@ -3,7 +3,7 @@ class OrdersController < ApplicationController
   before_action :move_to_root_path, only: :index
 
   def index
-    gon.public_key = ENV["PAYJP_PUBLIC_KEY"]
+    gon.public_key = ENV['PAYJP_PUBLIC_KEY']
     @item = Item.find(params[:item_id])
     @buyer_address = BuyerAddress.new
   end
@@ -21,12 +21,15 @@ class OrdersController < ApplicationController
   end
 
   private
+
   def order_params
-    params.require(:buyer_address).permit(:post_code, :prefecture_id, :municipality, :address, :building_name, :telephone_number, buyer_id: current_user.id).merge(user_id: @item.user_id, item_id: @item.id, price: @item.price, token:params[:token])
+    params.require(:buyer_address).permit(:post_code, :prefecture_id, :municipality, :address, :building_name,
+                                          :telephone_number, buyer_id: current_user.id).merge(user_id: @item.user_id, item_id: @item.id,
+                                                                                              price: @item.price, token: params[:token])
   end
 
   def pay_item
-    Payjp.api_key = ENV["PAYJP_SECRET_KEY"]
+    Payjp.api_key = ENV['PAYJP_SECRET_KEY']
     Payjp::Charge.create(
       amount: order_params[:price],
       card: order_params[:token],
@@ -36,8 +39,8 @@ class OrdersController < ApplicationController
 
   def move_to_root_path
     @item = Item.find(params[:item_id])
-    if !user_signed_in? || @item.user_id == current_user.id || buyers_exists?(@item.id)
-      redirect_to root_path
-    end
+    return unless !user_signed_in? || @item.user_id == current_user.id || buyers_exists?(@item.id)
+
+    redirect_to root_path
   end
 end

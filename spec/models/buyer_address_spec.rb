@@ -13,7 +13,7 @@ RSpec.describe BuyerAddress, type: :model do
         expect(@buyer_address).to be_valid
       end
       it 'buuilding_nameは空でも購入できる' do
-        @buyer_address.building_name = ""
+        @buyer_address.building_name = ''
         expect(@buyer_address).to be_valid
       end
     end
@@ -27,12 +27,12 @@ RSpec.describe BuyerAddress, type: :model do
       it '郵便番号は「3桁ハイフン4桁」でないと購入できない' do
         @buyer_address.post_code = '1112222'
         @buyer_address.valid?
-        expect(@buyer_address.errors.full_messages).to include("Post code is invalid. Include hyphen(-)")
+        expect(@buyer_address.errors.full_messages).to include('Post code is invalid. Include hyphen(-)')
       end
       it '郵便番号は半角文字列のみでないと購入できない' do
         @buyer_address.post_code = '１２３-４５６７'
         @buyer_address.valid?
-        expect(@buyer_address.errors.full_messages).to include("Post code is invalid. Include hyphen(-)")
+        expect(@buyer_address.errors.full_messages).to include('Post code is invalid. Include hyphen(-)')
       end
       it 'prefecture_idが1だと購入できない' do
         @buyer_address.prefecture_id = '1'
@@ -62,14 +62,14 @@ RSpec.describe BuyerAddress, type: :model do
       it 'telephone_numberは10桁以上11桁以内でなければ購入できない' do
         @buyer_address.telephone_number = '090123456789'
         @buyer_address.valid?
-        expect(@buyer_address.errors.full_messages).to include("Telephone number is invalid")
+        expect(@buyer_address.errors.full_messages).to include('Telephone number is invalid')
       end
       it 'telephone_numberは半角数値でなければ購入できない' do
         @buyer_address.telephone_number = '０９０１２３４５６７８'
         @buyer_address.valid?
-        expect(@buyer_address.errors.full_messages).to include("Telephone number is invalid")
+        expect(@buyer_address.errors.full_messages).to include('Telephone number is invalid')
       end
-        it 'priceが空では購入できない' do
+      it 'priceが空では購入できない' do
         @buyer_address.price = ''
         @buyer_address.valid?
         expect(@buyer_address.errors.full_messages).to include("Price can't be blank")
