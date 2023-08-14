@@ -1,4 +1,5 @@
 class ItemsController < ApplicationController
+  include ItemsHelper
   before_action :move_to_new_user_session_path, only: :new
   before_action :set_item, only: [:show, :edit, :update, :destroy]
   before_action :move_to_root_path, only: [:edit, :destroy]
@@ -58,8 +59,8 @@ class ItemsController < ApplicationController
   end
 
   def move_to_root_path
-    return if user_signed_in? && current_user.id == @item.user_id
-
-    redirect_to root_path
+    if !user_signed_in? || current_user.id != @item.user_id || buyers_exists?(@item.id)
+      redirect_to root_path
+    end
   end
 end
