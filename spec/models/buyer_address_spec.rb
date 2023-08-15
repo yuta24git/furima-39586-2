@@ -44,11 +44,6 @@ RSpec.describe BuyerAddress, type: :model do
         @buyer_address.valid?
         expect(@buyer_address.errors.full_messages).to include("Municipality can't be blank")
       end
-      it 'municipalityが空では購入できない' do
-        @buyer_address.municipality = ''
-        @buyer_address.valid?
-        expect(@buyer_address.errors.full_messages).to include("Municipality can't be blank")
-      end
       it 'addressが空では購入できない' do
         @buyer_address.address = ''
         @buyer_address.valid?
