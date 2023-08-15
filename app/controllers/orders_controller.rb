@@ -6,14 +6,10 @@ class OrdersController < ApplicationController
   before_action :public_key, only: [:index, :create]
 
   def index
-    public_key
-    set_item
     @buyer_address = BuyerAddress.new
   end
 
   def create
-    set_item
-    public_key
     @buyer_address = BuyerAddress.new(order_params)
     if @buyer_address.valid?
       pay_item
