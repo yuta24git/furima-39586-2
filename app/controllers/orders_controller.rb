@@ -1,5 +1,6 @@
 class OrdersController < ApplicationController
   include ItemsHelper
+  before_action :authenticate_user!, only: :index
   before_action :set_item, only: [:index, :create]
   before_action :move_to_page, only: :index
 
@@ -37,10 +38,8 @@ class OrdersController < ApplicationController
     )
   end
 
-  def move_to_page
-    if !user_signed_in?
-      redirect_to new_user_session_path
-    elsif @item.user_id == current_user.id || buyers_exists?(@item.id)
+  def move_to_root_path
+    if @item.user_id == current_user.id || buyers_exists?(@item.id)
       redirect_to root_path
     end
   end

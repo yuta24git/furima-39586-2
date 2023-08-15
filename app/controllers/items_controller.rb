@@ -1,6 +1,6 @@
 class ItemsController < ApplicationController
   include ItemsHelper
-  before_action :move_to_new_user_session_path, only: :new
+  before_action :authenticate_user!, only: :new
   before_action :set_item, only: [:show, :edit, :update, :destroy]
   before_action :move_to_root_path, only: [:edit, :destroy]
 
@@ -46,12 +46,6 @@ class ItemsController < ApplicationController
   def item_params
     params.require(:item).permit(:title, :explanation, :category_id, :situation_id, :responsibility_id, :prefecture_id,
                                  :number_of_day_id, :price, :image).merge(user_id: current_user.id)
-  end
-
-  def move_to_new_user_session_path
-    return if user_signed_in?
-
-    redirect_to new_user_session_path
   end
 
   def set_item
