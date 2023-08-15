@@ -2,7 +2,7 @@ class OrdersController < ApplicationController
   include ItemsHelper
   before_action :authenticate_user!, only: :index
   before_action :set_item, only: [:index, :create]
-  before_action :move_to_page, only: :index
+  before_action :move_to_root_path, only: :index
   before_action :public_key, only: [:index, :create]
 
   def index
