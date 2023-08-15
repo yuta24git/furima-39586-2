@@ -1,5 +1,6 @@
 class ItemsController < ApplicationController
-  before_action :move_to_new_user_session_path, only: :new
+  include ItemsHelper
+  before_action :authenticate_user!, only: [:new, :edit, :destroy]
   before_action :set_item, only: [:show, :edit, :update, :destroy]
   before_action :move_to_root_path, only: [:edit, :destroy]
 
@@ -47,18 +48,12 @@ class ItemsController < ApplicationController
                                  :number_of_day_id, :price, :image).merge(user_id: current_user.id)
   end
 
-  def move_to_new_user_session_path
-    return if user_signed_in?
-
-    redirect_to new_user_session_path
-  end
-
   def set_item
     @item = Item.find(params[:id])
   end
 
   def move_to_root_path
-    return if user_signed_in? && current_user.id == @item.user_id
+    return unless current_user.id != @item.user_id || buyers_exists?(@item.id)
 
     redirect_to root_path
   end
