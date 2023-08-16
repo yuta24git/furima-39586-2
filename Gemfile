@@ -94,3 +94,5 @@ gem "pry-rails"
 gem 'payjp'
 
 gem 'gon'
+
+gem 'rails-i18n'
